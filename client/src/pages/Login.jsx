@@ -2,10 +2,17 @@ import { Avatar, Button, Container, IconButton, Paper, Stack, TextField, Typogra
 import React, { useState } from "react";
 import {CameraAlt as CameraAltIcon} from '@mui/icons-material'
 import { VisuallyHidenInput } from "../components/styles/StyledComponents";
+import {useInputValidation} from '6pp'
+import { usernameValidator } from "../utils/utils";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const toggleLogin = () =>setIsLogin((prev=>!prev))
+  const name=useInputValidation("");
+  const bio=useInputValidation("");
+  const username=useInputValidation("",usernameValidator);
+  const password=useInputValidation("");
+
 
   return (
     <Container component={"main"} maxWidth="xs" sx={{
@@ -37,6 +44,8 @@ const Login = () => {
                 label="Username"
                 margin="normal"
                 variant="outlined"
+                value={username.value}
+                onChange={username.changeHandler}
               />
               <TextField
                 required
@@ -45,6 +54,8 @@ const Login = () => {
                 type="password"
                 margin="normal"
                 variant="outlined"
+                value={password.value}
+                onChange={password.changeHandler}
               />
               <Button
                 sx={{
@@ -109,6 +120,8 @@ const Login = () => {
                 label="Name"
                 margin="normal"
                 variant="outlined"
+                value={name.value}
+                onChange={name.changeHandler}
               />
               <TextField
                 required
@@ -116,6 +129,8 @@ const Login = () => {
                 label="Bio"
                 margin="normal"
                 variant="outlined"
+                value={bio.value}
+                onChange={bio.changeHandler}
               />
               <TextField
                 required
@@ -123,7 +138,16 @@ const Login = () => {
                 label="Username"
                 margin="normal"
                 variant="outlined"
+                value={username.value}
+                onChange={username.changeHandler}
               />
+              {
+                username.error && (
+                    <Typography>
+                        
+                    </Typography>
+                )
+              }
               <TextField
                 required
                 fullWidth
@@ -131,6 +155,8 @@ const Login = () => {
                 type="password"
                 margin="normal"
                 variant="outlined"
+                value={password.value}
+                onChange={password.changeHandler}
               />
               <Button
                 sx={{
