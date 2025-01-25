@@ -1,26 +1,44 @@
-import { Avatar, Button, Container, IconButton, Paper, Stack, TextField, Typography } from "@mui/material";
+import {
+  Avatar,
+  Button,
+  Container,
+  IconButton,
+  Paper,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import React, { useState } from "react";
-import {CameraAlt as CameraAltIcon} from '@mui/icons-material'
+import { CameraAlt as CameraAltIcon } from "@mui/icons-material";
 import { VisuallyHidenInput } from "../components/styles/StyledComponents";
-import {useInputValidation} from '6pp'
-import { usernameValidator } from "../utils/utils";
+import { useFileHandler, useInputValidation, useStrongPassword } from "6pp";
+import { usernameValidator } from "../utils/validators";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
-  const toggleLogin = () =>setIsLogin((prev=>!prev))
-  const name=useInputValidation("");
-  const bio=useInputValidation("");
-  const username=useInputValidation("",usernameValidator);
-  const password=useInputValidation("");
+  const toggleLogin = () => setIsLogin((prev) => !prev);
+  const name = useInputValidation("");
+  const bio = useInputValidation("");
+  const username = useInputValidation("", usernameValidator);
+  const password = useStrongPassword();
+  const avatar = useFileHandler("single");
 
-
+  const handleLogin = (e) => {
+    e.preventDefault();
+  };
+  const handleSignUp = (e) => {
+    e.preventDefault();
+  };
   return (
-    <Container component={"main"} maxWidth="xs" sx={{
-        height:"100vh",
-        display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-    }}
+    <Container
+      component={"main"}
+      maxWidth="xs"
+      sx={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
       <Paper
         elevation={3}
@@ -34,10 +52,13 @@ const Login = () => {
         {isLogin ? (
           <>
             <Typography variant="h5">Login</Typography>
-            <form style={{
-                width:"100%",
-                marginTop :"1rem",
-            }}>
+            <form
+              style={{
+                width: "100%",
+                marginTop: "1rem",
+              }}
+              onSubmit={handleLogin}
+            >
               <TextField
                 required
                 fullWidth
@@ -69,52 +90,73 @@ const Login = () => {
                 Login
               </Button>
 
-              <Typography textAlign={"center"} m={"1rem"}>Or</Typography>
+              <Typography textAlign={"center"} m={"1rem"}>
+                Or
+              </Typography>
 
               <Button
                 fullWidth
                 variant="text"
-                
-                onClick={()=>setIsLogin(false)}
+                onClick={() => setIsLogin(false)}
               >
                 Sign Up instead
               </Button>
             </form>
           </>
         ) : (
-            <>
-            <Typography variant="h5">SignUp</Typography>
-            <form style={{
-                width:"100%",
-                marginTop :"1rem",
-            }}>
+          <>
+            <Typography variant="h5">Sign Up</Typography>
+            <form
+              style={{
+                width: "100%",
+                marginTop: "1rem",
+              }}
+              onSubmit={handleSignUp}
+            >
+              <Stack position={"relative"} width={"10rem"} margin={"auto"}>
+                <Avatar
+                  sx={{
+                    width: "10rem",
+                    height: "10rem",
+                    objectFit: "contain",
+                  }}
+                  src={avatar.preview}
+                />
 
-                <Stack position={"relative"} width={"10rem"} margin={"auto"}>
-                    <Avatar sx={{
-                        width:"10rem",
-                        height:"10rem",
-                        objectFit:"contain",
-                    }}/>
-                    <IconButton
-                    sx={{
-                        position:"absolute",
-                        bottom:"0",
-                        right:"0",
-                        color:"white",
-                        bgcolor:"rgba(0,0,0,0.5)",
-                        ":hover":{
-                            bgcolor:"rgba(0,0,0,0.7)",
-                        },
-                    }}
-                    component="label"
-                    >
-                        <>
-                        <CameraAltIcon/>
-                        <VisuallyHidenInput type="file"/>
-                        </>
-                    </IconButton>
-                </Stack>
-                <TextField
+                <IconButton
+                  sx={{
+                    position: "absolute",
+                    bottom: "0",
+                    right: "0",
+                    color: "white",
+                    bgcolor: "rgba(0,0,0,0.5)",
+                    ":hover": {
+                      bgcolor: "rgba(0,0,0,0.7)",
+                    },
+                  }}
+                  component="label"
+                >
+                  <>
+                    <CameraAltIcon />
+                    <VisuallyHidenInput
+                      type="file"
+                      onChange={avatar.changeHandler}
+                    />
+                  </>
+                </IconButton>
+              </Stack>
+              {avatar.error && (
+                <Typography
+                  m={"1rem"}
+                  width={"fit-content"}
+                  display={"block"}
+                  color="error"
+                  variant="caption"
+                >
+                  {avatar.error}
+                </Typography>
+              )}
+              <TextField
                 required
                 fullWidth
                 label="Name"
@@ -141,13 +183,11 @@ const Login = () => {
                 value={username.value}
                 onChange={username.changeHandler}
               />
-              {
-                username.error && (
-                    <Typography>
-                        
-                    </Typography>
-                )
-              }
+              {username.error && (
+                <Typography color="error" variant="caption">
+                  {username.error}
+                </Typography>
+              )}
               <TextField
                 required
                 fullWidth
@@ -158,6 +198,11 @@ const Login = () => {
                 value={password.value}
                 onChange={password.changeHandler}
               />
+              {password.error && (
+                <Typography color="error" variant="caption">
+                  {password.error}
+                </Typography>
+              )}
               <Button
                 sx={{
                   marginTop: "1rem",
@@ -170,13 +215,11 @@ const Login = () => {
                 Sign Up
               </Button>
 
-              <Typography textAlign={"center"} m={"1rem"}>Or</Typography>
+              <Typography textAlign={"center"} m={"1rem"}>
+                Or
+              </Typography>
 
-              <Button
-                fullWidth
-                variant="text"
-                onClick={toggleLogin}
-              >
+              <Button fullWidth variant="text" onClick={toggleLogin}>
                 Login Instead
               </Button>
             </form>
@@ -184,6 +227,7 @@ const Login = () => {
         )}
       </Paper>
     </Container>
+  
   );
 };
 
