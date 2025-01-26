@@ -1,26 +1,10 @@
-import React from "react";
-import Header from "./Header";
-import Title from "../shared/Title";
-import { Grid } from "@mui/material";
-import ChatList from "../specific/ChatList";
-import { samplechats } from "../../constants/sampleData";
-import { useParams } from "react-router-dom";
-import Profile from "../specific/Profile";
+import { Grid,Skeleton, Stack } from '@mui/material'
+import React from 'react'
 
-const AppLayout = () => (WrappedComponent) => {
-  return (props) => {
-    const params= useParams()
-    const chatId=params.chatId;
-
-    const handleDeleteChat = (e,_id,groupChat)=>{
-      e.preventDefault();
-      console.log("Delete Chat",_id,groupChat)
-    }
-    return (
-      <>
-        <Title />
-        <Header />
-        <Grid container height={"calc(100vh - 4rem)"}>
+const Loaders = () => {
+  return (
+    <div>
+      <Grid container height={"calc(100vh - 4rem)"} spacing={"1rem"}>
           {/* Left Sidebar */}
           <Grid
             item
@@ -34,11 +18,7 @@ const AppLayout = () => (WrappedComponent) => {
             height={"100%"}
           >
             {/* Left Sidebar Content */}
-            <ChatList
-              chats={samplechats}
-              chatId={chatId}
-              handleDeleteChat={handleDeleteChat}
-            />
+            <Skeleton variant='rectangular'/>
           </Grid>
 
           {/* Main Content */}
@@ -54,7 +34,11 @@ const AppLayout = () => (WrappedComponent) => {
             }}
             height={"100%"}
           >
-            <WrappedComponent {...props} />
+            <Stack spacing={"1rem"}>
+            {Array.from({length:10}).map((_,index)=>(
+                <Skeleton key={index}variant='rounded' height={"5rem"}/>
+            ))}
+            </Stack>
           </Grid>
 
           {/* Right Sidebar */}
@@ -64,20 +48,19 @@ const AppLayout = () => (WrappedComponent) => {
             lg={3}
             sx={{
               display: { xs: "none", md: "block" },
+              color: "white",
               padding: "2rem",
               bgcolor: "rgba(0,0,0,0.85)",
-              color: "white",
               overflowY: "auto", // Prevent overflow in the sidebar
             }}
             height={"100%"}
           >
             {/* Right Sidebar Content */}
-            <Profile/>
+            <Skeleton variant='rectangular' height={"100vh"}/>
           </Grid>
         </Grid>
-      </>
-    );
-  };
-};
+    </div>
+  )
+}
 
-export default AppLayout;
+export default Loaders
