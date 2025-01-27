@@ -45,3 +45,22 @@ export const sampleNotifications=[
         _id:"2",
     }
 ]
+
+export const sampleMessage=[
+    {
+        attachments:[
+            {
+                public_id:"asdfda",
+                url:""
+            }
+        ],
+        content:"Hello",
+        _id:"ahdhedhsbjdaks",
+        sender:{
+            _id:"user._id",
+            name:"Vanshika",
+        },
+        chat:"chatId",
+        createdAt:"2024-02-12T10:41:30.630Z",
+    },
+]

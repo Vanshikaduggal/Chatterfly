@@ -46,12 +46,8 @@ const AppLayout = () => (WrappedComponent) => {
             item
             xs={12}
             sm={8}
-            md={6}
+            md={5}
             lg={6}
-            sx={{
-              padding: "1rem",
-              overflowY: "auto", // Prevent overflow in the main content
-            }}
             height={"100%"}
           >
             <WrappedComponent {...props} />
@@ -60,7 +56,7 @@ const AppLayout = () => (WrappedComponent) => {
           {/* Right Sidebar */}
           <Grid
             item
-            md={3}
+            md={4}
             lg={3}
             sx={{
               display: { xs: "none", md: "block" },
