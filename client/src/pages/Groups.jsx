@@ -15,7 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
-import {sampleChats} from '../constants/sampleData'
+import {samplechats} from '../constants/sampleData'
 
 const Groups = () => {
   const navigate = useNavigate();
@@ -80,7 +80,7 @@ const Groups = () => {
         sm={4}
         bgcolor={"bisque"}
       >
-        <GroupList myGroups={sampleChats} />
+        <GroupList myGroups={samplechats} />
       </Grid>
       <Grid
         item
