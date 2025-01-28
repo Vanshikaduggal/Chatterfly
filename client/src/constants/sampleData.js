@@ -63,4 +63,20 @@ export const sampleMessage=[
         chat:"chatId",
         createdAt:"2024-02-12T10:41:30.630Z",
     },
+    {
+        attachments:[
+            {
+                public_id:"asdfda 2",
+                url:""
+            }
+        ],
+        content:"Hi",
+        _id:"ahdhedhsbjdaksada",
+        sender:{
+            _id:"abdhasb",
+            name:"Vansh",
+        },
+        chat:"chatId",
+        createdAt:"2024-02-12T10:41:30.630Z",
+    },
 ]
