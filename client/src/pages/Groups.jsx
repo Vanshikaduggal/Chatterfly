@@ -12,13 +12,16 @@ import {
   KeyboardBackspace as KeyboardBackspaceIcon,
   Menu as MenuIcon,
 } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useSearchParams } from "react-router-dom";
 import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
 import {samplechats} from '../constants/sampleData'
 
 const Groups = () => {
+  const chatId=useSearchParams()[0].get("group");
   const navigate = useNavigate();
+
+  console.log(chatId)
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const navigateBack = () => {
@@ -80,7 +83,7 @@ const Groups = () => {
         sm={4}
         bgcolor={"bisque"}
       >
-        <GroupList myGroups={samplechats} />
+        <GroupList myGroups={samplechats} chatId={chatId}/>
       </Grid>
       <Grid
         item
@@ -95,6 +98,10 @@ const Groups = () => {
         }}
       >
         {IconBtns}
+
+        {
+          GroupName
+        }
       </Grid>
       <Drawer
         sx={{
@@ -106,30 +113,34 @@ const Groups = () => {
         open={isMobileMenuOpen}
         onClose={handleMobileClose}
       >
-        <GroupList w={"50vw"} />
+        <GroupList w={"50vw"} myGroups={samplechats} chatId={chatId} />
       </Drawer>
     </Grid>
   );
 };
 
 const GroupList = ({ w = "100%", myGroups = [], chatId }) => {
-  <Stack>
-    {myGroups.length > 0 ? (
-      myGroups.map((group) => <GroupListItem group={group} chatId={chatId} />)
-    ) : (
-      <Typography textAlign={"center"} padding="1rem">
-        No group
-      </Typography>
-    )}
-  </Stack>;
+  return ( // Added return statement
+    <Stack width={w}>
+      {myGroups.length > 0 ? (
+        myGroups.map((group) => (
+          <GroupListItem key={group._id} group={group} chatId={chatId} />
+        ))
+      ) : (
+        <Typography textAlign={"center"} padding="1rem">
+          No group
+        </Typography>
+      )}
+    </Stack>
+  );
 };
 
 const GroupListItem = memo(({ group, chatId }) => {
   const { name, avatar, _id } = group;
 
   return (
-    <Link>
-      <Stack>
+    <Link to={`?group=${_id}`} onClick={e=>{if(chatId===_id) e.preventDefault()}}>
+      <Stack direction={"row"} spacing={"1rem"} alignItems={"center"}>
         <AvatarCard avatar={avatar} />
         <Typography>{name}</Typography>
       </Stack>
