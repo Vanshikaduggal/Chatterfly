@@ -1,8 +1,8 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { lazy, memo, Suspense, useEffect, useState } from "react";
 import {
+  Backdrop,
   Box,
   Button,
-  ButtonGroup,
   Drawer,
   Grid,
   IconButton,
@@ -24,6 +24,10 @@ import { Link } from "../components/styles/StyledComponents";
 import AvatarCard from "../components/shared/AvatarCard";
 import { samplechats } from "../constants/sampleData";
 
+const ConfirmDeleteDialog = lazy(() =>
+  import("../components/dialogs/ConfirmDeleteDialog")
+);
+
 const Groups = () => {
   const chatId = useSearchParams()[0].get("group");
   const navigate = useNavigate();
@@ -32,7 +36,7 @@ const Groups = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
-  const [confirmDeleteDialog,setConfirmDeleteDialog]=useState(false)
+  const [confirmDeleteDialog, setConfirmDeleteDialog] = useState(false);
   const [groupName, setGroupName] = useState("");
   const [groupNameUpdatedValue, setGroupNameUpdatedValue] = useState("");
   const navigateBack = () => {
@@ -50,17 +54,20 @@ const Groups = () => {
     console.log(groupNameUpdatedValue);
   };
 
-  const openConfirmDeleteHandler = () =>{
-    setConfirmDeleteDialog(true)
-    console.log("delete group")
-  }
+  const openConfirmDeleteHandler = () => {
+    setConfirmDeleteDialog(true);
+    console.log("delete group");
+  };
 
-  const closeConfirmDeleteHandler =()=>{
+  const closeConfirmDeleteHandler = () => {};
 
-  }
+  const openAddMemberHandler = () => {
+    console.log("ADD MEMBER");
+  };
 
-  const openAddMemberHandler =() =>{
-    console.log("ADD MEMBER")
+  const deleteHandler=()=>{
+    console.log("Delete handler");
+    closeConfirmDeleteHandler();
   }
 
   useEffect(() => {
@@ -155,10 +162,20 @@ const Groups = () => {
         md: "1rem 4rem",
       }}
     >
-      <Button size="large" color="error" startIcon={<DeleteIcon />} onClick={openConfirmDeleteHandler}>
+      <Button
+        size="large"
+        color="error"
+        startIcon={<DeleteIcon />}
+        onClick={openConfirmDeleteHandler}
+      >
         Delete Group
       </Button>
-      <Button size="large" variant="contained" startIcon={<AddIcon />} onClick={openAddMemberHandler}>
+      <Button
+        size="large"
+        variant="contained"
+        startIcon={<AddIcon />}
+        onClick={openAddMemberHandler}
+      >
         Add Member
       </Button>
     </Stack>
@@ -223,6 +240,15 @@ const Groups = () => {
           </>
         )}
       </Grid>
+      {confirmDeleteDialog && (
+        <Suspense fallback={<Backdrop open />}>
+          <ConfirmDeleteDialog
+            open={confirmDeleteDialog}
+            handleClose={closeConfirmDeleteHandler}
+            deleteHandler={deleteHandler}
+          />
+        </Suspense>
+      )}
       <Drawer
         sx={{
           display: {
