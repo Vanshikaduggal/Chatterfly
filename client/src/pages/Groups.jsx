@@ -249,6 +249,7 @@ const Groups = () => {
           />
         </Suspense>
       )}
+
       <Drawer
         sx={{
           display: {
