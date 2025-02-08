@@ -13,6 +13,7 @@ import { CameraAlt as CameraAltIcon } from "@mui/icons-material";
 import { VisuallyHidenInput } from "../components/styles/StyledComponents";
 import { useFileHandler, useInputValidation, useStrongPassword } from "6pp";
 import { usernameValidator } from "../utils/validators";
+import { bgGradient } from "../constants/color";
 
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -30,6 +31,10 @@ const Login = () => {
     e.preventDefault();
   };
   return (
+    <div
+    style={{backgroundColor:bgGradient}}
+    >
+
     <Container
       component={"main"}
       maxWidth="xs"
@@ -243,7 +248,7 @@ const Login = () => {
         )}
       </Paper>
     </Container>
-  
+  </div>
   );
 };
 
