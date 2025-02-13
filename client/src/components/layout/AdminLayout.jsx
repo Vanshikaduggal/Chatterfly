@@ -102,9 +102,9 @@ const AdminLayout = ({ children }) => {
   };
   const handleClose = () => setIsMobile(false);
 
-  if(!isAdmin) return <Navigate to="/admin"/>;
+  if (!isAdmin) return <Navigate to="/admin" />;
   return (
-    <Grid container minHeight={"100vh"}>
+    <Grid container minHeight={"100vh"} sx={{ overflow: "hidden" }}>
       <Box
         sx={{
           display: { xs: "block", md: "none" },
@@ -135,6 +135,7 @@ const AdminLayout = ({ children }) => {
         lg={9}
         sx={{
           bgcolor: grayColor,
+          overflow: "hidden", // Prevents content overflow
         }}
       >
         {children}

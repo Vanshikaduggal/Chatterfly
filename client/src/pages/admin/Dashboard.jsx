@@ -72,38 +72,42 @@ const Dashboard = () => {
       <Container component={"main"}>
         {Appbar}
 
-        <Stack direction={"row"} spacing={"2rem"} flexWrap={"wrap"}>
+        <Stack
+          direction={{ xs: "column", lg: "row" }}
+          flexWrap="wrap"
+          justifyContent="center"
+          alignItems="stretch"
+          spacing="2rem"
+        >
           <Paper
             elevation={3}
             sx={{
-              padding: "2rem 3.5rem",
+              padding: "2rem",
               borderRadius: "1rem",
-              width: "100%",
-              maxWidth: "45rem",
-              height: "25rem",
+              flex: "1 1 45%",
+              minWidth: "300px",
+              maxWidth: "600px",
             }}
           >
             <Typography variant="h4" margin={"2rem 0"}>
               Last messages
             </Typography>
-            <LineChart/>
+            <LineChart value={[23, 6, 5, 7, 8, 9, 3]} />
           </Paper>
           <Paper
-            elevation={3}
-            sx={{
-              padding: "1rem",
-              borderRadius: "1rem",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: { xs: "100%", sm: "50%" },
-              position: "relative",
-              width: "100%",
-              maxWidth: "25rem",
-              height: "25rem",
-            }}
+           elevation={3}
+           sx={{
+             padding: "2rem",
+             borderRadius: "1rem",
+             flex: "1 1 45%",
+             minWidth: "300px",
+             maxWidth: "600px",
+             display: "flex",
+             justifyContent: "center",
+             alignItems: "center",
+           }}
           >
-            <DoughnutChart/>
+            <DoughnutChart />
             <Stack
               position={"absolute"}
               direction={"row"}
@@ -126,7 +130,7 @@ const Dashboard = () => {
 
 const Widget = ({ title, value, Icon }) => (
   <Paper
-  elevation={3}
+    elevation={3}
     sx={{
       padding: "2rem",
       margin: "2rem 0",
