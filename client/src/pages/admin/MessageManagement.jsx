@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
-import AdminLayout from '../../components/layout/AdminLayout'
-import Table from '../../components/shared/Table';
-
-
+import React, { useEffect, useState } from "react";
+import AdminLayout from "../../components/layout/AdminLayout";
+import Table from "../../components/shared/Table";
+import { Avatar, Box } from "@mui/material";
+import { fileFormat } from "../../lib/feature";
+import RenderAttachment from '../../components/shared/RenderAttachment'
 const columns = [
   {
     field: "id",
@@ -15,9 +16,26 @@ const columns = [
     headerName: "Attachments",
     headerClassName: "table-header",
     width: 200,
-    renderCell: (params) => (
-      <Avatar alt={params.row.name} src={params.row.avatar} />
-    ),
+    renderCell: (params) => {
+      const { attachments } = params.row;
+      return attachments?.length > 0
+        ? attachments.map((i) => {
+          const url =i.url
+          const file = fileFormat(url)
+            return <Box>
+              <a href={i.url}
+              download
+              target="_blank"
+              style={{
+                color:"black",
+              }}
+              >
+                {RenderAttachment(file,url)}
+              </a>
+            </Box>;
+          })
+        : "No Attachments";
+    },
   },
   {
     field: "content",
@@ -31,10 +49,10 @@ const columns = [
     headerClassName: "table-header",
     width: 200,
     renderCell: (params) => (
-     <Stack>
-      <Avatar alt={params.row.sender.name} src={params.row.sender.avatar} />
-      <span>{params.rows.sender.name}</span>
-     </Stack>
+      <Stack>
+        <Avatar alt={params.row.sender.name} src={params.row.sender.avatar} />
+        <span>{params.rows.sender.name}</span>
+      </Stack>
     ),
   },
   {
@@ -58,12 +76,16 @@ const columns = [
 ];
 
 const MessageManagement = () => {
-  const [rows,setRows] = useState([])
+  const [rows, setRows] = useState([]);
+
+  useEffect(() => {
+    setRows();
+  }, []);
   return (
     <AdminLayout>
-        <Table heading={"All Messages"}/>
+      <Table heading={"All Messages"} columns={columns} rows={rows} rowHeight={200}/>
     </AdminLayout>
-  )
-}
+  );
+};
 
-export default MessageManagement
+export default MessageManagement;
