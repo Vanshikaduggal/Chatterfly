@@ -1,21 +1,29 @@
-import {Schema,Types,model, models} from 'mongoose';
+import moongoose,{ Schema, Types, model} from "mongoose";
 
-const schema = new Schema({
-    name:{
-        type:String,
-        required:true,
+const schema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
     },
-    groupChat:{
-        type:Boolean,
-        default:false,
+    groupChat: {
+      type: Boolean,
+      default: false,
     },
-    creator:{
-        type:Types.ObjectId,
-        ref:"User",
+    creator: {
+      type: Types.ObjectId,
+      ref: "User",
     },
-    
-},{
-    timestamps:true,
-});
+    members: [
+      {
+        type: Types.ObjectId,
+        ref: "User",
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export const User = models.User || model("User",schema)
+export const Chat = moongoose.models.Chat || model("Chat", schema);

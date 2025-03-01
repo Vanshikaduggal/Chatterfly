@@ -1,11 +1,28 @@
-import express from "express";
-import userRoute from "./routes/user.js";
+import express from 'express';
+import { connectDb } from './utils/features.js';
+import dotenv from 'dotenv';
 
-const app = express();
-
-app.use(express.json()); // Middleware to parse JSON requests
-app.use('/user', userRoute);
-
-app.listen(3000, () => {
-    console.log("Server is running on port 3000");
+dotenv.config({
+    path:"./.env"
 });
+
+const mongoURI =process.env.MONGO_URI;
+const port = process.env.PORT || 3000 
+connectDb(mongoURI)
+
+const app=express();
+
+//Using middlewares here 
+app.use(express.json()); //to access raw data
+
+
+
+//app.use("/user",userRoute);
+
+app.get("/",(req,res)=>{
+    res.send("Hello")
+})
+
+app.listen(port,()=>{
+    console.log(`Server is running on port ${port}`)
+})
